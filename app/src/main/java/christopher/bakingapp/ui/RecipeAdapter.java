@@ -1,12 +1,16 @@
 package christopher.bakingapp.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -42,8 +46,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(RecipeAdapter.RecipeViewHolder holder, int position) {
-      RecipeModel selectedRecipe = recipeList.get(position);
-      holder.example.setText(selectedRecipe.getRecipeName());
+        RecipeModel selectedRecipe = recipeList.get(position);
+        holder.name.setText(selectedRecipe.getRecipeName());
+
+        String recipePicture = String.valueOf(selectedRecipe.getId());
+
+        if (recipePicture == "0") {
+            Glide.with(mContext)
+                    .load(recipePicture)
+                    .into(holder.recPic);
+        }
     }
 
     @Override
@@ -54,21 +66,24 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     class RecipeViewHolder extends RecyclerView.ViewHolder {
 
 
-        TextView example;
-
+        TextView name;
+ImageView recPic;
 
 
         public RecipeViewHolder(View itemView) {
             super(itemView);
 
-            example = (TextView) itemView.findViewById(R.id.tv_recipe);
+            name = (TextView) itemView.findViewById(R.id.tv_recipe);
+recPic = (ImageView) itemView.findViewById(R.id.recipePicture);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int clickedPosition = getAdapterPosition();
                     Toast.makeText(mContext, "You clicked it!", Toast.LENGTH_SHORT).show();
-
+Intent intent = new Intent(mContext, RecipeSteps.class);
+intent.putExtra("recipeParcel", clickedPosition);
+mContext.startActivity(intent);
                 }
             });
         }
