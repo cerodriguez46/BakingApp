@@ -12,7 +12,7 @@ public class StepActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.player_main);
+        setContentView(R.layout.step_master_main);
 
         Bundle recipeDetailsBundle = getIntent().getBundleExtra("recipeBundle");
         recipeName = recipeDetailsBundle.getString("recipeNames");

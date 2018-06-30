@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     @Override
     public void onBindViewHolder(StepAdapter.StepViewHolder holder, int position) {
 
+        holder.step.setText(stepList.get(position).getShortDesc());
+
     }
 
     @Override
@@ -52,10 +55,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
     class StepViewHolder extends RecyclerView.ViewHolder {
 
+        TextView step;
+
 
         public StepViewHolder(View itemView) {
             super(itemView);
 
+            step = (TextView) itemView.findViewById(R.id.tv_steps);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
