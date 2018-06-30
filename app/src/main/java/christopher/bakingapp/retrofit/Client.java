@@ -5,6 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Client {
 
+
     public static final String BASE_URL= "https://d17h27t6h515a5.cloudfront.net";
 
 
@@ -16,7 +17,11 @@ public class Client {
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
+
+
         }
         return retrofit;
+
+
     }
 }

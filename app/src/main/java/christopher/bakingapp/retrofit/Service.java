@@ -10,5 +10,6 @@ public interface Service {
     @GET("/topher/2017/May/59121517_baking/baking.json")
     Call<ArrayList<RecipeModel>> getRecipes();
 
+
 }
 

@@ -1,14 +1,15 @@
-package christopher.bakingapp.ui;
+package christopher.bakingapp.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 
 import christopher.bakingapp.R;
 import christopher.bakingapp.retrofit.RecipeModel;
+import christopher.bakingapp.ui.activities.StepActivity;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
@@ -28,6 +30,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
         this.mContext = mContext;
         this.recipeList = recipeList;
+
     }
 
     @Override
@@ -49,13 +52,26 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         RecipeModel selectedRecipe = recipeList.get(position);
         holder.name.setText(selectedRecipe.getRecipeName());
 
-        String recipePicture = String.valueOf(selectedRecipe.getId());
+        if (position == 0) {
 
-        if (recipePicture == "0") {
             Glide.with(mContext)
-                    .load(recipePicture)
+                    .load(R.drawable.nutellapie)
+                    .into(holder.recPic);
+
+        } else if (position == 1) {
+            Glide.with(mContext)
+                    .load(R.drawable.brownie)
+                    .into(holder.recPic);
+        } else if (position == 2) {
+            Glide.with(mContext)
+                    .load(R.drawable.yellowcake)
+                    .into(holder.recPic);
+        } else {
+            Glide.with(mContext)
+                    .load(R.drawable.cheesecake)
                     .into(holder.recPic);
         }
+
     }
 
     @Override
@@ -76,13 +92,21 @@ ImageView recPic;
             name = (TextView) itemView.findViewById(R.id.tv_recipe);
 recPic = (ImageView) itemView.findViewById(R.id.recipePicture);
 
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int clickedPosition = getAdapterPosition();
-                    Toast.makeText(mContext, "You clicked it!", Toast.LENGTH_SHORT).show();
-Intent intent = new Intent(mContext, RecipeSteps.class);
-intent.putExtra("recipeParcel", clickedPosition);
+                    Intent intent = new Intent(mContext, StepActivity.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList("steps", (ArrayList<? extends Parcelable>) recipeList.get(clickedPosition).getSteps());
+                    bundle.putParcelableArrayList("ingredients", (ArrayList<? extends Parcelable>) recipeList.get(clickedPosition).getIngredients());
+                    bundle.putString("recipeNames", recipeList.get(clickedPosition).getRecipeName());
+                    intent.putExtra("recipeBundle", bundle);
+//intent.putExtra("recipeParcel", clickedPosition);
+//intent.putExtra("ingredientParcel", clickedPosition);
+//intent.putExtra("stepParcel", clickedPosition);
 mContext.startActivity(intent);
                 }
             });
