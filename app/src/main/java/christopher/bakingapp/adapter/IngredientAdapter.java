@@ -17,6 +17,11 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
 
     private Context mContext;
 
+    String ingredientName;
+    String quant;
+    String measure;
+    String totalIngredients;
+
 
     private ArrayList<IngredientModel> ingredientList = new ArrayList<>();
 
@@ -44,9 +49,14 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @Override
     public void onBindViewHolder(IngredientAdapter.IngredientViewHolder holder, int position) {
         IngredientModel selectedRecipe = ingredientList.get(position);
-        holder.ingredientName.setText(selectedRecipe.getIngredients());
-        holder.ingredientQuantity.setText((int) selectedRecipe.getAmount());
-        holder.ingredientMeasure.setText(selectedRecipe.getMeasure());
+
+        ingredientName = selectedRecipe.getIngredients();
+        quant = String.valueOf(selectedRecipe.getAmount());
+        measure = selectedRecipe.getMeasure();
+
+        totalIngredients = ingredientName + "\n" + quant + " " + measure;
+        holder.ingredientName.setText(totalIngredients);
+
     }
 
     @Override

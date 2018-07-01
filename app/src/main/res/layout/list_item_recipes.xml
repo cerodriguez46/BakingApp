@@ -9,11 +9,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="20dp"
-    android:divider="@android:color/transparent"
+    card_view:cardElevation="5dp"
+    android:divider="@android:color/darker_gray"
     android:dividerHeight="10dp"
     android:clipToPadding="false"
-    android:clipChildren="false">
+    android:clipChildren="false"
+    android:layout_margin="8dp">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -25,15 +26,11 @@
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:adjustViewBounds="true"
-            android:paddingTop="20dp"
+            android:layout_margin="16dp"
+            android:textStyle="bold"
+
+
+            android:padding="5dp"
             android:textSize="25sp"
             android:elevation="10dp"
             card_view:layout_constraintBottom_toBottomOf="parent"
@@ -46,14 +43,10 @@
                 android:id="@+id/recipePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
+
                 android:src="@drawable/nutellapie"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="fitStart"
+                android:layout_margin="8dp"
+                android:scaleType="fitCenter"
 
 
                 card_view:layout_constraintBottom_toBottomOf="parent"
