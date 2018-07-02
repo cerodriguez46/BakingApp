@@ -49,6 +49,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         StepModel selectedRecipe = stepList.get(position);
         holder.step.setText(selectedRecipe.getShortDesc());
 
+
     }
 
     @Override
@@ -66,6 +67,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
             step = (TextView) itemView.findViewById(R.id.tv_steps);
 
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -76,9 +78,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
                     bundle.putString("stepsDetails", stepList.get(clickedPosition).getDescription());
                     bundle.putString("stepsVideo", stepList.get(clickedPosition).getVidUrl());
                     intent.putExtra("stepDetailBundle", bundle);
-//intent.putExtra("recipeParcel", clickedPosition);
-//intent.putExtra("ingredientParcel", clickedPosition);
-//intent.putExtra("stepParcel", clickedPosition);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(intent);
 
                 }

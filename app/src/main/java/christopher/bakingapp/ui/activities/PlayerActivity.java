@@ -24,16 +24,25 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.player_main);
 
+        stepDetailsBundle = getIntent().getBundleExtra("stepDetailBundle");
 
-        PlayerFragment playerFragment = new PlayerFragment();
+        stepDescription = stepDetailsBundle.getString("stepsDetails");
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        stepVid = stepDetailsBundle.getString("stepsVideo");
 
-        fragmentManager.beginTransaction()
-                .add(R.id.player_container, playerFragment)
-                .commit();
 
-        //getActionBar().setTitle();
+        if (savedInstanceState == null) {
+
+            PlayerFragment playerFragment = new PlayerFragment();
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+
+            fragmentManager.beginTransaction()
+                    .add(R.id.player_container, playerFragment)
+                    .commit();
+
+
+        }
     }
 
     @Override

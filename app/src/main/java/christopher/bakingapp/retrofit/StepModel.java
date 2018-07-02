@@ -13,7 +13,7 @@ public class StepModel implements Parcelable {
     private String shortDesc;
     @SerializedName("description")
     private String description;
-    @SerializedName("videoUrl")
+    @SerializedName("videoURL")
     private String vidUrl;
     @SerializedName("thumbnailUrl")
     private String thumbUrl;

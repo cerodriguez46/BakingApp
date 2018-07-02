@@ -107,6 +107,7 @@ recPic = (ImageView) itemView.findViewById(R.id.recipePicture);
 //intent.putExtra("recipeParcel", clickedPosition);
 //intent.putExtra("ingredientParcel", clickedPosition);
 //intent.putExtra("stepParcel", clickedPosition);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 mContext.startActivity(intent);
                 }
             });

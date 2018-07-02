@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView.setAdapter(new RecipeAdapter(getApplicationContext(), recipeList));
                 recyclerView.scrollToPosition(recyclerViewState);
 
-                Toast.makeText(getApplicationContext(), "It works!", Toast.LENGTH_SHORT).show();
             }
 
             @Override

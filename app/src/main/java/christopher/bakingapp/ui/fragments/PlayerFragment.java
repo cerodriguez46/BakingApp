@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
@@ -29,7 +28,7 @@ import christopher.bakingapp.retrofit.StepModel;
 
 public class PlayerFragment extends Fragment {
 
-    SimpleExoPlayer playerView;
+    PlayerView playerView;
     TextView stepDetails;
 
     private List<StepModel> stepDetailList;
@@ -46,7 +45,9 @@ public class PlayerFragment extends Fragment {
 
     private long playbackPosition;
     private int currentWindow;
-    private boolean playWhenReady;
+    private boolean playWhenReady = true;
+
+    String stepVidUrl;
 
 
     public PlayerFragment() {
@@ -56,7 +57,9 @@ public class PlayerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_player, container, false);
-        playerView = (SimpleExoPlayer) rootView.findViewById(R.id.video_view);
+
+        playerView = rootView.findViewById(R.id.video_view);
+
         stepDetails = rootView.findViewById(R.id.steps_detail);
 
         stepDetailsBundle = getActivity().getIntent().getBundleExtra("stepDetailBundle");
@@ -65,11 +68,13 @@ public class PlayerFragment extends Fragment {
 
         stepVid = stepDetailsBundle.getString("stepsVideo");
 
-
         stepDetails.setText(stepDescription);
 
 
+
         return rootView;
+
+
     }
 
     private void initializePlayer() {
@@ -77,12 +82,12 @@ public class PlayerFragment extends Fragment {
                 new DefaultRenderersFactory(getActivity()),
                 new DefaultTrackSelector(), new DefaultLoadControl());
 
-        playerView.setPlayer();
+        playerView.setPlayer(player);
 
         player.setPlayWhenReady(playWhenReady);
         player.seekTo(currentWindow, playbackPosition);
 
-        Uri uri = Uri.parse(getString(Integer.parseInt(stepVid)));
+        Uri uri = Uri.parse(stepVid);
         MediaSource mediaSource = buildMediaSource(uri);
         player.prepare(mediaSource, true, false);
     }
