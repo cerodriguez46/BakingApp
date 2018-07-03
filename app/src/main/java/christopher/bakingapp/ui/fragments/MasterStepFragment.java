@@ -45,6 +45,7 @@ public class MasterStepFragment extends Fragment {
 
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.steps_master_list, container, false);
@@ -76,6 +77,19 @@ public class MasterStepFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ingredientList = ((StepActivity) getActivity()).getIngredientsList();
+        stepList = ((StepActivity) getActivity()).getStepList();
+
+
+        loadIngredients();
+        loadSteps();
+
     }
 
     public void loadSteps() {

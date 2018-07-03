@@ -133,8 +133,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    */
 
-    public void networkRequestSteps() {
+   /* public void networkRequestSteps() {
 
         Client client = new Client();
 
@@ -151,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
                 //recyclerViewSteps.setAdapter(new StepAdapter(getActivity(), stepList));
                // recyclerViewSteps.scrollToPosition(recyclerViewStepState);
 
-                Toast.makeText(getApplicationContext(), "It works!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "It didn't work! :(", Toast.LENGTH_LONG).show();
             }
         });
-    } */
+    }*/
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

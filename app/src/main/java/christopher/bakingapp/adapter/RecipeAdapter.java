@@ -26,6 +26,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     private ArrayList<RecipeModel> recipeList = new ArrayList<>();
 
+
     public RecipeAdapter(Context mContext, ArrayList<RecipeModel> recipeList) {
 
         this.mContext = mContext;
@@ -104,9 +105,6 @@ recPic = (ImageView) itemView.findViewById(R.id.recipePicture);
                     bundle.putParcelableArrayList("ingredients", (ArrayList<? extends Parcelable>) recipeList.get(clickedPosition).getIngredients());
                     bundle.putString("recipeNames", recipeList.get(clickedPosition).getRecipeName());
                     intent.putExtra("recipeBundle", bundle);
-//intent.putExtra("recipeParcel", clickedPosition);
-//intent.putExtra("ingredientParcel", clickedPosition);
-//intent.putExtra("stepParcel", clickedPosition);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 mContext.startActivity(intent);
                 }

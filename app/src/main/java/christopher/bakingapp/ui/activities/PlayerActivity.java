@@ -19,6 +19,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     String stepVid;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

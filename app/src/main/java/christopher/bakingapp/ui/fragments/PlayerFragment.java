@@ -64,6 +64,10 @@ public class PlayerFragment extends Fragment {
 
         stepDetailsBundle = getActivity().getIntent().getBundleExtra("stepDetailBundle");
 
+        if (getArguments() != null) {
+            stepDetailsBundle = getArguments();
+        }
+
         stepDescription = stepDetailsBundle.getString("stepsDetails");
 
         stepVid = stepDetailsBundle.getString("stepsVideo");
@@ -151,6 +155,5 @@ public class PlayerFragment extends Fragment {
         }
     }
 }
-
 
 

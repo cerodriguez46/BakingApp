@@ -3,6 +3,7 @@ package christopher.bakingapp.ui.activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +18,19 @@ public class StepActivity extends AppCompatActivity {
 
     String recipeName;
 
+    String stepDescription;
+
+    String stepVid;
+
     Bundle recipeDetailsBundle;
+
+    Bundle stepDetailsBundle;
     private ArrayList<StepModel> stepList;
     private ArrayList<IngredientModel> ingredientList;
 
     private boolean mTwoPane;
 
+    TextView stepDetails;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +57,10 @@ public class StepActivity extends AppCompatActivity {
                 FragmentManager fragmentManager = getSupportFragmentManager();
 
                 PlayerFragment playerFragment = new PlayerFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("stepsDetails", stepList.get(0).getDescription());
+                bundle.putString("stepsVideo", stepList.get(0).getVidUrl());
+                playerFragment.setArguments(bundle);
 
                 fragmentManager.beginTransaction()
                         .add(R.id.player_container, playerFragment)
@@ -60,7 +72,6 @@ public class StepActivity extends AppCompatActivity {
             }
 
         }
-
 
 
     }
@@ -78,4 +89,3 @@ public class StepActivity extends AppCompatActivity {
         return ingredientList;
     }
 }
-
