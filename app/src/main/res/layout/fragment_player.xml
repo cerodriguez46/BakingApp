@@ -10,21 +10,18 @@
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
         android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/steps_detail"
-            android:layout_margin="8dp"
-            android:layout_weight="1"
-            android:textSize="25dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/steps_detail"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:textSize="25dp" />
 
 </LinearLayout>
-
-
-
 
 
 

@@ -108,58 +108,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-   /* public void networkRequestIngredients(){
-        Client client = new Client();
 
-        Service service = client.getClient().create(Service.class);
-
-        Call<ArrayList<IngredientModel>> call = service.getRecipes();
-
-        call.enqueue(new Callback<ArrayList<IngredientModel>>() {
-            @Override
-            public void onResponse(Call<ArrayList<IngredientModel>> call, retrofit2.Response<ArrayList<IngredientModel>> response) {
-                ingredientList = response.body();
+    @Override
+    protected void onResume() {
+        super.onResume();
 
 
-                //recyclerViewIngredients.setAdapter(new IngredientAdapter(getActivity(), ingredientList));
-                //recyclerViewIngredients.scrollToPosition(recyclerViewStepState);
-
-                Toast.makeText(getApplicationContext(), "It works!", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<IngredientModel>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "It didn't work! :(", Toast.LENGTH_LONG).show();
-            }
-        });
     }
-    */
-
-   /* public void networkRequestSteps() {
-
-        Client client = new Client();
-
-        Service service = client.getClient().create(Service.class);
-
-        Call<ArrayList<StepModel>> call = service.getSteps();
-
-        call.enqueue(new Callback<ArrayList<StepModel>>() {
-            @Override
-            public void onResponse(Call<ArrayList<StepModel>> call, retrofit2.Response<ArrayList<StepModel>> response) {
-                stepList = response.body();
-
-
-                //recyclerViewSteps.setAdapter(new StepAdapter(getActivity(), stepList));
-               // recyclerViewSteps.scrollToPosition(recyclerViewStepState);
-
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<StepModel>> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), "It didn't work! :(", Toast.LENGTH_LONG).show();
-            }
-        });
-    }*/
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

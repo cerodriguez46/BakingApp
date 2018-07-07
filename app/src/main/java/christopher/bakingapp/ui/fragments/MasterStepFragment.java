@@ -16,7 +16,6 @@ import christopher.bakingapp.R;
 import christopher.bakingapp.adapter.IngredientAdapter;
 import christopher.bakingapp.adapter.StepAdapter;
 import christopher.bakingapp.retrofit.IngredientModel;
-import christopher.bakingapp.retrofit.RecipeModel;
 import christopher.bakingapp.retrofit.StepModel;
 import christopher.bakingapp.ui.activities.StepActivity;
 
@@ -31,15 +30,31 @@ public class MasterStepFragment extends Fragment {
     RecyclerView recyclerViewSteps;
     RecyclerView recyclerViewIngredients;
 
-    RecipeModel recipe;
-    IngredientModel ingredients;
-    StepModel steps;
-
-    String recipeIngredients;
-
 
     private int recyclerViewStepState;
     private int recyclerViewIngredientState;
+
+    OnRecipeStepClickListener mCallback;
+
+    public interface OnRecipeStepClickListener {
+        void onRecipeStepSelected(int position);
+    }
+
+
+  /*  @Override
+    public void onAttatch(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnRecipeStepClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + "must implement OnRecipeStepClickListener");
+
+        }
+    }*/
+
+
 
     public MasterStepFragment() {
 
@@ -62,14 +77,6 @@ public class MasterStepFragment extends Fragment {
 
         ingredientList = ((StepActivity) getActivity()).getIngredientsList();
         stepList = ((StepActivity) getActivity()).getStepList();
-
-        // Intent intentFromMainActivity = getActivity().getIntent();
-
-       /* recipe = getActivity().getIntent().getParcelableExtra("recipeParcel");
-        ingredients = getActivity().getIntent().getParcelableExtra("ingredientParcel");
-        steps = getActivity().getIntent().getParcelableExtra("stepParcel");
-
-       recipeIngredients = ingredients.getIngredients();*/
 
 
         loadIngredients();
@@ -97,11 +104,6 @@ public class MasterStepFragment extends Fragment {
         stepAdapter = new StepAdapter(getActivity(), (ArrayList<StepModel>) stepList);
         recyclerViewSteps.setAdapter(stepAdapter);
         stepAdapter.notifyDataSetChanged();
-        recyclerViewSteps.scrollToPosition(recyclerViewStepState);
-
-
-
-
 
     }
 
@@ -110,8 +112,6 @@ public class MasterStepFragment extends Fragment {
         ingredientAdapter = new IngredientAdapter(getActivity(), (ArrayList<IngredientModel>) ingredientList);
         recyclerViewIngredients.setAdapter(ingredientAdapter);
         ingredientAdapter.notifyDataSetChanged();
-        recyclerViewIngredients.scrollToPosition(recyclerViewStepState);
-
 
     }
 }

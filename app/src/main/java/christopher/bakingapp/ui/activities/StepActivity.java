@@ -3,7 +3,7 @@ package christopher.bakingapp.ui.activities;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,24 +18,25 @@ public class StepActivity extends AppCompatActivity {
 
     String recipeName;
 
-    String stepDescription;
 
-    String stepVid;
 
     Bundle recipeDetailsBundle;
 
-    Bundle stepDetailsBundle;
+
     private ArrayList<StepModel> stepList;
     private ArrayList<IngredientModel> ingredientList;
 
     private boolean mTwoPane;
 
-    TextView stepDetails;
+
+    ScrollView scrollViewSteps;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.step_master_main);
+
+        scrollViewSteps = (ScrollView) findViewById(R.id.scrollViewSteps);
 
 
         recipeDetailsBundle = getIntent().getBundleExtra("recipeBundle");
@@ -88,4 +89,10 @@ public class StepActivity extends AppCompatActivity {
     public List<IngredientModel> getIngredientsList() {
         return ingredientList;
     }
+
+
+   /* @Override
+    public void onRecipeStepSelected(int position) {
+
+    }*/
 }
