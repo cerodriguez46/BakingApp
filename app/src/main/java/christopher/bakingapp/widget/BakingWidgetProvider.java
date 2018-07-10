@@ -13,6 +13,13 @@ import christopher.bakingapp.retrofit.RecipeModel;
 /**
  * Implementation of App Widget functionality.
  */
+
+
+//This class binds all the widget components together
+//The AppWidgetProvider is a special type of BroadcastReceiver that is specifically used to
+// send messages to a home screen widget. The AppWidgetProvider class provides several different callback methods,
+// one each for the five different broadcasts that a widget would typically receive.
+
 public class BakingWidgetProvider extends AppWidgetProvider {
 
     public static final String ACTION_VIEW_DETAILS =
@@ -24,10 +31,16 @@ public class BakingWidgetProvider extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-
     }
 
+
     //called when widget is created and at every update interval
+
+    //do our normal widget setup, but we also bind our service to the widget's view using a service
+    // intent and the setRemoteAdapter() method of the RemoteViews class.
+    // We also specify which of our widget views is going to be the empty view.
+    // Then, we create and set our pending intent template
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
@@ -52,6 +65,10 @@ public class BakingWidgetProvider extends AppWidgetProvider {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
+    //we can now listen for that custom broadcast action we assigned in our pending intent template.
+    // If we receive an intent of that type, we can do whatever we want with it.
+    // If it's not the custom action, be sure to call super so that onUpdate gets called when necessary.
+    // Don't forget to register this receiver in the manifest to listen for both the update and custom intent actions.
     @Override
     public void onReceive(Context context, Intent intent) {
 

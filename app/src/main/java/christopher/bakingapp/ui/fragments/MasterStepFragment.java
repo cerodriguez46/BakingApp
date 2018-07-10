@@ -1,5 +1,6 @@
 package christopher.bakingapp.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +19,10 @@ import christopher.bakingapp.adapter.IngredientAdapter;
 import christopher.bakingapp.adapter.StepAdapter;
 import christopher.bakingapp.retrofit.IngredientModel;
 import christopher.bakingapp.retrofit.StepModel;
+import christopher.bakingapp.ui.activities.PlayerActivity;
 import christopher.bakingapp.ui.activities.StepActivity;
 
-public class MasterStepFragment extends Fragment {
+public class MasterStepFragment extends Fragment implements StepAdapter.OnItemClicked {
 
     private StepAdapter stepAdapter;
     private IngredientAdapter ingredientAdapter;
@@ -30,29 +33,14 @@ public class MasterStepFragment extends Fragment {
     RecyclerView recyclerViewSteps;
     RecyclerView recyclerViewIngredients;
 
+    ScrollView scrollView;
 
     private int recyclerViewStepState;
     private int recyclerViewIngredientState;
 
-    OnRecipeStepClickListener mCallback;
-
-    public interface OnRecipeStepClickListener {
-        void onRecipeStepSelected(int position);
-    }
 
 
-  /*  @Override
-    public void onAttatch(Context context) {
-        super.onAttach(context);
 
-        try {
-            mCallback = (OnRecipeStepClickListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()
-                    + "must implement OnRecipeStepClickListener");
-
-        }
-    }*/
 
 
 
@@ -103,7 +91,9 @@ public class MasterStepFragment extends Fragment {
 
         stepAdapter = new StepAdapter(getActivity(), (ArrayList<StepModel>) stepList);
         recyclerViewSteps.setAdapter(stepAdapter);
+        stepAdapter.setOnClick(this);
         stepAdapter.notifyDataSetChanged();
+
 
     }
 
@@ -113,5 +103,19 @@ public class MasterStepFragment extends Fragment {
         recyclerViewIngredients.setAdapter(ingredientAdapter);
         ingredientAdapter.notifyDataSetChanged();
 
+    }
+
+
+    @Override
+    public void onItemClick(int position) {
+
+        Intent intent = new Intent(getActivity(), PlayerActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("stepsDetails", stepList.get(position).getDescription());
+        bundle.putString("stepsVideo", stepList.get(position).getVidUrl());
+        intent.putExtra("stepDetailBundle", bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(intent);
     }
 }

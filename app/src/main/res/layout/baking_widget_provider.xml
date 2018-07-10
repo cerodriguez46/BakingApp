@@ -1,3 +1,5 @@
+<!-- set layout of widget here -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:orientation="vertical"

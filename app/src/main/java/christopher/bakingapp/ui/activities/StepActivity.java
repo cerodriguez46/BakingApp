@@ -91,8 +91,15 @@ public class StepActivity extends AppCompatActivity {
     }
 
 
-   /* @Override
-    public void onRecipeStepSelected(int position) {
 
+
+    /*@Override
+    public void onItemClick(int position) {
+        Toast.makeText(this, "You clicked on it", Toast.LENGTH_SHORT).show();
+        recipeDetailsBundle = getIntent().getBundleExtra("recipeBundle");
+        recipeName = recipeDetailsBundle.getString("recipeNames");
+
+        ingredientList = recipeDetailsBundle.getParcelableArrayList("ingredients");
+        stepList = recipeDetailsBundle.getParcelableArrayList("steps");
     }*/
 }
