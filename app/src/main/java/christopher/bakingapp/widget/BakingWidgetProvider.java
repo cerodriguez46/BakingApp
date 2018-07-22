@@ -1,14 +1,20 @@
 package christopher.bakingapp.widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 
+import com.google.gson.Gson;
+
+import java.util.List;
+
 import christopher.bakingapp.R;
-import christopher.bakingapp.retrofit.RecipeModel;
+import christopher.bakingapp.retrofit.IngredientModel;
 
 /**
  * Implementation of App Widget functionality.
@@ -26,10 +32,26 @@ public class BakingWidgetProvider extends AppWidgetProvider {
             "com.company.android.ACTION_VIEW_DETAILS";
     public static final String EXTRA_ITEM =
             "com.company.android.CollectionWidgetProvider.EXTRA_ITEM";
-
+    static List<IngredientModel> ingredientsList;
+    static String recipe;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+
+        CharSequence widgetText = context.getString(R.string.app_name);
+        // Construct the RemoteViews object
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_item);
+        views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        Intent intent = new Intent(context, BakingWidgetService.class);
+
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        intent.putExtra("ingredients", (new Gson().toJson(ingredientsList)).toString());
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        views.setRemoteAdapter(R.id.appwidget_ingredients, intent);
+        views.setTextViewText(R.id.appwidget_recipe, recipe);
+        // Instruct the widget manager to update the widget
+        appWidgetManager.updateAppWidget(appWidgetId, views);
 
     }
 
@@ -48,18 +70,7 @@ public class BakingWidgetProvider extends AppWidgetProvider {
 
             int widgetId = appWidgetIds[i];
 
-            Intent intent = new Intent(context, BakingWidgetService.class);
-            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
-
-            RemoteViews widgetView = new RemoteViews(context.getPackageName(), R.layout.baking_widget_provider);
-            widgetView.setRemoteAdapter(R.id.list_view, intent);
-            widgetView.setEmptyView(R.id.list_view, R.id.empty_view);
-
-            Intent detailIntent = new Intent(ACTION_VIEW_DETAILS);
-            PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, detailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            widgetView.setPendingIntentTemplate(R.id.list_view, pIntent);
-
-            appWidgetManager.updateAppWidget(widgetId, widgetView);
+            updateAppWidget(context, appWidgetManager, widgetId);
         }
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
@@ -71,17 +82,21 @@ public class BakingWidgetProvider extends AppWidgetProvider {
     // Don't forget to register this receiver in the manifest to listen for both the update and custom intent actions.
     @Override
     public void onReceive(Context context, Intent intent) {
+        try {
+            Bundle extras = intent.getExtras();
+            ingredientsList = (List<IngredientModel>) extras.get("ingredients");
+            recipe = extras.getString("recipeName");
 
-        if (intent.getAction().equals(ACTION_VIEW_DETAILS)) {
-            RecipeModel recipes = (RecipeModel) intent.getSerializableExtra(EXTRA_ITEM);
-            if (recipes != null) {
-                // Handle the click here.
-                // Maybe start a details activity?
-                // Maybe consider using an Activity PendingIntent instead of a Broadcast?
-            }
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            ComponentName thisAppWidget = new ComponentName(context.getPackageName(), BakingWidgetProvider.class.getName());
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
+
+            onUpdate(context, appWidgetManager, appWidgetIds);
+            super.onReceive(context, intent);
+
+        } catch (Exception e) {
+
         }
-
-        super.onReceive(context, intent);
     }
 
 
@@ -95,4 +110,3 @@ public class BakingWidgetProvider extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 }
-

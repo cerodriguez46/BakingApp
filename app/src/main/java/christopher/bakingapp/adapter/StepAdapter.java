@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import christopher.bakingapp.R;
+import christopher.bakingapp.interfaces.ItemClickInterface;
 import christopher.bakingapp.retrofit.StepModel;
 
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
@@ -20,21 +21,13 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     private ArrayList<StepModel> stepList = new ArrayList<>();
 
     //declare interface
-    private OnItemClicked onClick;
+    ItemClickInterface itemClickInterface;
 
-    //make interface like this
-    public interface OnItemClicked {
-        void onItemClick(int position);
-    }
-
-    public void setOnClick(OnItemClicked onClick) {
-        this.onClick = onClick;
-    }
-
-    public StepAdapter(Context mContext, ArrayList<StepModel> stepList) {
+    public StepAdapter(Context mContext, ArrayList<StepModel> stepList, ItemClickInterface itemClickInterface) {
 
         this.mContext = mContext;
         this.stepList = stepList;
+        this.itemClickInterface = itemClickInterface;
 
     }
 
@@ -58,6 +51,12 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
 
         StepModel selectedRecipe = stepList.get(position);
         holder.step.setText(selectedRecipe.getShortDesc());
+        holder.step.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickInterface.onItemClick(position);
+            }
+        });
 
     }
 

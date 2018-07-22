@@ -1,9 +1,12 @@
 package christopher.bakingapp.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ScrollView;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +16,13 @@ import christopher.bakingapp.retrofit.IngredientModel;
 import christopher.bakingapp.retrofit.StepModel;
 import christopher.bakingapp.ui.fragments.MasterStepFragment;
 import christopher.bakingapp.ui.fragments.PlayerFragment;
+import christopher.bakingapp.widget.BakingWidgetProvider;
 
 public class StepActivity extends AppCompatActivity {
 
     String recipeName;
-
+    public static final String ACTION_VIEW_DETAILS =
+            "com.company.android.ACTION_VIEW_DETAILS";
 
 
     Bundle recipeDetailsBundle;
@@ -40,10 +45,21 @@ public class StepActivity extends AppCompatActivity {
 
 
         recipeDetailsBundle = getIntent().getBundleExtra("recipeBundle");
+
         recipeName = recipeDetailsBundle.getString("recipeNames");
 
         ingredientList = recipeDetailsBundle.getParcelableArrayList("ingredients");
         stepList = recipeDetailsBundle.getParcelableArrayList("steps");
+
+        Gson gson = new Gson();
+        String ingredientsJson = gson.toJson(ingredientList);
+
+        Intent broadCastIntent = new Intent(getApplicationContext(), BakingWidgetProvider.class);
+        broadCastIntent.setAction("android.appwidget.action.APPWIDGET_UPDATE");
+        broadCastIntent.putExtra("ingredients", ingredientList);
+        broadCastIntent.putExtra("recipeNames", recipeName);
+        getApplicationContext().sendBroadcast(broadCastIntent);
+
 
         getSupportFragmentManager().beginTransaction().replace(R.id.master_list_fragment, new MasterStepFragment()).commit();
         getSupportActionBar().setTitle(recipeName);
@@ -89,17 +105,4 @@ public class StepActivity extends AppCompatActivity {
     public List<IngredientModel> getIngredientsList() {
         return ingredientList;
     }
-
-
-
-
-    /*@Override
-    public void onItemClick(int position) {
-        Toast.makeText(this, "You clicked on it", Toast.LENGTH_SHORT).show();
-        recipeDetailsBundle = getIntent().getBundleExtra("recipeBundle");
-        recipeName = recipeDetailsBundle.getString("recipeNames");
-
-        ingredientList = recipeDetailsBundle.getParcelableArrayList("ingredients");
-        stepList = recipeDetailsBundle.getParcelableArrayList("steps");
-    }*/
 }

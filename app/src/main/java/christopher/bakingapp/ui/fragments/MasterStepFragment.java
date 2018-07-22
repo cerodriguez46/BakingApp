@@ -17,12 +17,13 @@ import java.util.List;
 import christopher.bakingapp.R;
 import christopher.bakingapp.adapter.IngredientAdapter;
 import christopher.bakingapp.adapter.StepAdapter;
+import christopher.bakingapp.interfaces.ItemClickInterface;
 import christopher.bakingapp.retrofit.IngredientModel;
 import christopher.bakingapp.retrofit.StepModel;
 import christopher.bakingapp.ui.activities.PlayerActivity;
 import christopher.bakingapp.ui.activities.StepActivity;
 
-public class MasterStepFragment extends Fragment implements StepAdapter.OnItemClicked {
+public class MasterStepFragment extends Fragment implements ItemClickInterface {
 
     private StepAdapter stepAdapter;
     private IngredientAdapter ingredientAdapter;
@@ -37,8 +38,6 @@ public class MasterStepFragment extends Fragment implements StepAdapter.OnItemCl
 
     private int recyclerViewStepState;
     private int recyclerViewIngredientState;
-
-
 
 
 
@@ -89,9 +88,8 @@ public class MasterStepFragment extends Fragment implements StepAdapter.OnItemCl
 
     public void loadSteps() {
 
-        stepAdapter = new StepAdapter(getActivity(), (ArrayList<StepModel>) stepList);
+        stepAdapter = new StepAdapter(getActivity(), (ArrayList<StepModel>) stepList, this);
         recyclerViewSteps.setAdapter(stepAdapter);
-        stepAdapter.setOnClick(this);
         stepAdapter.notifyDataSetChanged();
 
 
@@ -110,7 +108,6 @@ public class MasterStepFragment extends Fragment implements StepAdapter.OnItemCl
     public void onItemClick(int position) {
 
         Intent intent = new Intent(getActivity(), PlayerActivity.class);
-
         Bundle bundle = new Bundle();
         bundle.putString("stepsDetails", stepList.get(position).getDescription());
         bundle.putString("stepsVideo", stepList.get(position).getVidUrl());
@@ -118,4 +115,5 @@ public class MasterStepFragment extends Fragment implements StepAdapter.OnItemCl
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getActivity().startActivity(intent);
     }
+
 }

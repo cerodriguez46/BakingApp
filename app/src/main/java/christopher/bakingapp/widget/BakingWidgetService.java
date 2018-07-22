@@ -10,8 +10,11 @@ public class BakingWidgetService extends RemoteViewsService {
 
     //only required method that must return a RemoteViewsFactory
     //be sure to register this service in the manifest
+
+
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new BakingWidgetViewFactory(getApplicationContext());
+        return new BakingWidgetViewFactory(getApplicationContext(), intent);
     }
 }
+

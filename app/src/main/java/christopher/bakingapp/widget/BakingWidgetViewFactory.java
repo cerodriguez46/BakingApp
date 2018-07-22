@@ -5,10 +5,14 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import christopher.bakingapp.R;
-import christopher.bakingapp.retrofit.RecipeModel;
+import christopher.bakingapp.retrofit.IngredientModel;
 
 //Remote Views Factory is a special adapter like class for widget
 
@@ -16,12 +20,52 @@ public class BakingWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
 
     private static final int ID_CONSTANT = 0x0101010;
 
-    private ArrayList<RecipeModel> mRecipes;
+    private ArrayList<IngredientModel> ingredients;
     private Context mContext;
 
-    public BakingWidgetViewFactory(Context context) {
+    public BakingWidgetViewFactory(Context context, Intent intent) {
         mContext = context;
-        mRecipes = new ArrayList<RecipeModel>();
+        try {
+            String ingredients = intent.getExtras().get("ingredients").toString();
+            this.ingredients = convertJsonToIngredientsList(new JSONArray(ingredients), mContext);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<IngredientModel> convertJsonToIngredientsList(JSONArray jsonArray, Context context) {
+        ArrayList<IngredientModel> bakeIngredientsList = new ArrayList<>();
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                IngredientModel bakeIngredient = convertJsonToIngredients(jsonObject, context);
+                bakeIngredientsList.add(bakeIngredient);
+
+            }
+        } catch (Exception e) {
+
+        }
+        return bakeIngredientsList;
+    }
+
+
+    public static IngredientModel convertJsonToIngredients(JSONObject jsonObject, Context context) {
+        IngredientModel ingredients = new IngredientModel();
+        try {
+            String quantity = jsonObject.get("quantity").toString();
+            String measure = jsonObject.get("measure").toString();
+            String ingredient = jsonObject.get("ingredient").toString();
+
+            ingredients.setAmount(Float.parseFloat(quantity));
+            ingredients.setMeasure(measure);
+            ingredients.setIngredients(ingredient);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ingredients;
+
     }
 
 
@@ -44,18 +88,14 @@ public class BakingWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
 
     @Override
     public void onDestroy() {
-        mRecipes.clear();
+
     }
 
     //returns number of views in the collection widget
     //This works exactly the same as getCount() in an adapter and should be used to return the number of items in the collection.
     @Override
     public int getCount() {
-        if (mRecipes != null) {
-            return mRecipes.size();
-        } else {
-            return 0;
-        }
+        return ingredients.size();
     }
 
     // similar to getView method in an adapter, implements remote views instead of a regular view
@@ -65,18 +105,10 @@ public class BakingWidgetViewFactory implements RemoteViewsService.RemoteViewsFa
     // intent here and attach it to the returned view.
     @Override
     public RemoteViews getViewAt(int i) {
-        RecipeModel recipe = mRecipes.get(i);
-
-        RemoteViews itemView = new RemoteViews(mContext.getPackageName(), R.layout.widget_item);
-
-        itemView.setTextViewText(R.id.title, recipe.getRecipeName());
-
-
-        Intent intent = new Intent();
-        intent.putExtra(BakingWidgetProvider.EXTRA_ITEM, recipe);
-        itemView.setOnClickFillInIntent(R.id.item, intent);
-
-        return itemView;
+        RemoteViews rv = new RemoteViews(mContext.getPackageName(), R.layout.ingredients_detail_view);
+        rv.setTextViewText(R.id.ingredients_name_txt_view, ingredients.get(i).getIngredients());
+        rv.setTextViewText(R.id.ingredients_measurements_txt_view, ingredients.get(i).getAmount() + " " + ingredients.get(i).getMeasure());
+        return rv;
 
     }
 
