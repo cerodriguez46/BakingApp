@@ -10,4 +10,4 @@
 
 
 
-This app displays baking instructions and ingredients for favorite dessert recipes. Steps also include detail videos displaying each specific step. A widget is also available that does the ingredients required for the last viewed recipe. 
+This app displays baking instructions and ingredients for favorite dessert recipes. Steps also include detail videos displaying each specific step. A widget is also available that shows the ingredients required for the last viewed recipe. 
